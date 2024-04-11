@@ -1,5 +1,8 @@
 # Simple Makefile for a Go project
 
+SQLMIGRATIONDIR := "./internal/database/migrations"
+SQLCONNSTR := "postgres://pony:password@psql:5432/pony_db?sslmode=disable"
+
 # Build the application
 all: build
 
@@ -56,5 +59,11 @@ watch:
 	        exit 1; \
 	    fi; \
 	fi
+
+migrate-up:
+	@goose -dir ${SQLMIGRATIONDIR} postgres ${SQLCONNSTR} up
+
+migrate-down:
+	@goose -dir ${SQLMIGRATIONDIR} postgres ${SQLCONNSTR} down
 
 .PHONY: all build run test clean
