@@ -15,7 +15,14 @@ import (
 type Server struct {
 	port int
 
-	db database.Service
+	db     database.Service
+	testDb database.Service
+}
+
+type JSONResponseError[T any] struct {
+	Code    string `json:"code"`
+	Status  string `json:"status"`
+	Message T      `json:"message"`
 }
 
 func NewServer() *http.Server {
@@ -23,7 +30,8 @@ func NewServer() *http.Server {
 	NewServer := &Server{
 		port: port,
 
-		db: database.New(),
+		db:     database.NewPostgresService(),
+		testDb: database.NewPostgresTestingService(),
 	}
 
 	// Declare Server config
@@ -36,4 +44,18 @@ func NewServer() *http.Server {
 	}
 
 	return server
+}
+
+func NewJSONResponseError[T any](code int, data T) *JSONResponseError[T] {
+	return &JSONResponseError[T]{
+		Code:    strconv.Itoa(code),
+		Status:  http.StatusText(code),
+		Message: data,
+	}
+}
+
+func NewJSONResponseSuccess[T any](data T) *map[string]T {
+	return &map[string]T{
+		"data": data,
+	}
 }
