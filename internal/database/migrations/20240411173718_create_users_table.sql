@@ -9,8 +9,8 @@ CREATE TABLE IF NOT EXISTS users (
      email varchar(255) UNIQUE NOT NULL,
      password varchar(255) NOT NULL,
      is_admin BOOLEAN DEFAULT '0' NOT NULL,
-     created_at BIGINT NOT NULL,
-     updated_at BIGINT
+     created_at TIMESTAMP NOT NULL,
+     updated_at TIMESTAMP
 );
 -- +goose StatementEnd
 
