@@ -15,4 +15,6 @@ COPY . .
 
 RUN go get github.com/volatiletech/sqlboiler/v4
 
+RUN go mod tidy
+
 CMD ["air"]
