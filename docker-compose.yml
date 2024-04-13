@@ -20,7 +20,10 @@ services:
       - .:/opt/app/api
 
   psql:
-    image: postgres:latest
+    image: postgres-db:1.0.0
+    build:
+      context: ./services/postgres
+      dockerfile: postgres.Dockerfile
     environment:
       POSTGRES_DB: pony_db
       POSTGRES_USER: pony
