@@ -2,6 +2,7 @@ output   = "./internal/models"
 wipe     = true
 no-tests = true
 add-enum-types = true
+no-auto-timestamps = false
 
 [psql]
   dbname = "pony_db"
