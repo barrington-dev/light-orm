@@ -14,13 +14,13 @@ type PostgresTestingService struct {
 }
 
 var (
-	dbTestInstance *PostgresTestingService
+	DbTestInstance *PostgresTestingService
 )
 
 func NewPostgresTestingService() *PostgresTestingService {
 	// Reuse Connection
-	if dbTestInstance != nil {
-		return dbTestInstance
+	if DbTestInstance != nil {
+		return DbTestInstance
 	}
 	conf := config.NewPostgresTestingConfig()
 	connStr := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable", conf.Username, conf.Password, conf.Host, conf.Port, conf.Database)
@@ -28,10 +28,10 @@ func NewPostgresTestingService() *PostgresTestingService {
 	if err != nil {
 		log.Fatal(err)
 	}
-	dbTestInstance = &PostgresTestingService{
+	DbTestInstance = &PostgresTestingService{
 		db: db,
 	}
-	return dbTestInstance
+	return DbTestInstance
 }
 
 func (s *PostgresTestingService) Health() map[string]string {
