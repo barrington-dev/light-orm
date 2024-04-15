@@ -2,6 +2,7 @@
 
 SQLMIGRATIONDIR := "./internal/database/migrations"
 SQLCONNSTR := "postgres://pony:password@psql:5432/pony_db?sslmode=disable"
+TESTSQLCONNSTR := "postgres://pony:password@psql:5432/test_db?sslmode=disable"
 
 # Build the application
 all: build
@@ -65,5 +66,11 @@ migrate-up:
 
 migrate-down:
 	@goose -dir ${SQLMIGRATIONDIR} postgres ${SQLCONNSTR} down
+
+migrate-test-up:
+	@goose -dir ${SQLMIGRATIONDIR} postgres ${TESTSQLCONNSTR} up
+
+migrate-test-down:
+	@goose -dir ${SQLMIGRATIONDIR} postgres ${TESTSQLCONNSTR} down
 
 .PHONY: all build run test clean
