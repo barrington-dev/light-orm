@@ -1,8 +1,8 @@
 # Simple Makefile for a Go project
 
-SQLMIGRATIONDIR := "./internal/database/migrations"
-SQLCONNSTR := "postgres://pony:password@psql:5432/pony_db?sslmode=disable"
-TESTSQLCONNSTR := "postgres://pony:password@psql:5432/test_db?sslmode=disable"
+SQLMIGRATIONDIR := "<Add SQL migration path here>"
+SQLCONNSTR := "<Add SQL connection string here>"
+TESTSQLCONNSTR := "<Add testing db SQL connection string here>"
 
 # Build the application
 all: build
@@ -67,10 +67,16 @@ migrate-up:
 migrate-down:
 	@goose -dir ${SQLMIGRATIONDIR} postgres ${SQLCONNSTR} down
 
+migrate-reset:
+	@goose -dir ${SQLMIGRATIONDIR} postgres ${SQLCONNSTR} reset
+
 migrate-test-up:
 	@goose -dir ${SQLMIGRATIONDIR} postgres ${TESTSQLCONNSTR} up
 
 migrate-test-down:
 	@goose -dir ${SQLMIGRATIONDIR} postgres ${TESTSQLCONNSTR} down
+
+migrate-test-reset:
+	@goose -dir ${SQLMIGRATIONDIR} postgres ${TESTSQLCONNSTR} reset
 
 .PHONY: all build run test clean
