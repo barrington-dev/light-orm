@@ -1,8 +1,9 @@
+{{ ansible_managed }}
 # Simple Makefile for a Go project
 
-SQLMIGRATIONDIR := "<Add SQL migration path here>"
-SQLCONNSTR := "<Add SQL connection string here>"
-TESTSQLCONNSTR := "<Add testing db SQL connection string here>"
+{{ SQLMIGRATIONDIR }}
+{{ SQLCONNSTR }}
+{{ TESTSQLCONNSTR }}
 
 # Build the application
 all: build
@@ -80,3 +81,4 @@ migrate-test-reset:
 	@goose -dir ${SQLMIGRATIONDIR} postgres ${TESTSQLCONNSTR} reset
 
 .PHONY: all build run test clean
+

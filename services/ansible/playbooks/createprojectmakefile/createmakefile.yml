@@ -1,0 +1,13 @@
+---
+- name: Create project Makefile playbook
+  hosts: local
+  become: True
+  gather_facts: True
+  vars_files:
+    - ./vars/secrets.yml
+
+  tasks:
+    - name: Create docker compose file for Dev environment
+      ansible.builtin.template:
+        src: ./templates/Makefile.j2
+        dest: ../../../../Makefile
