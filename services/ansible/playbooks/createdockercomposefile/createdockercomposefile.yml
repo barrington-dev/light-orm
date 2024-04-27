@@ -1,0 +1,24 @@
+---
+- name: Create Docker Compose file playbook
+  hosts: local
+  become: True
+  gather_facts: True
+
+  tasks:
+    - name: Create docker compose file for Dev environment
+      vars:
+        targetenv: dev
+      ansible.builtin.template:
+        src: ./templates/docker-compose.j2
+        dest: ../../../../docker-compose.yml
+      tags:
+        - dev
+
+    - name: Create docker compose file for Prod environment
+      vars:
+        targetenv: prod
+      ansible.builtin.template:
+        src: ./templates/docker-compose.j2
+        dest: ../../../../docker-compose.yml
+      tags:
+        - prod
