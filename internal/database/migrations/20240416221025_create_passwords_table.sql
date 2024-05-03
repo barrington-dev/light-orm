@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS passwords (
     password VARCHAR(255) NOT NULL,
     created_at TIMESTAMP NOT NULL,
     CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id)
+        ON DELETE CASCADE
 );
 -- +goose StatementEnd
 
