@@ -1,7 +1,8 @@
 # syntax=docker/dockerfile:1
 FROM golang:1.22-alpine as base
 
-FROM base as dev
+# Setup dev environment
+FROM base AS dev
 
 RUN apk add --no-cache make \
     && go install github.com/cosmtrek/air@latest \
@@ -17,4 +18,18 @@ RUN go get github.com/volatiletech/sqlboiler/v4
 
 RUN go mod tidy
 
+RUN export CGO_ENABLED=0 GOOS=linux \
+    && go build -o main cmd/api/main.go
+
 CMD ["air"]
+
+# Setup prod environment
+FROM alpine:edge AS prod
+
+WORKDIR /app
+
+COPY --from=dev /opt/app/api/main .
+
+RUN apk --no-cache add ca-certificates tzdata
+
+ENTRYPOINT ["/app/main"]
