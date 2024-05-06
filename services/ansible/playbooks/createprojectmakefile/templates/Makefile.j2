@@ -80,5 +80,8 @@ migrate-test-down:
 migrate-test-reset:
 	@goose -dir ${SQLMIGRATIONDIR} postgres ${TESTSQLCONNSTR} reset
 
+models:
+    @sqlboiler psql -c sqlboiler.toml
+
 .PHONY: all build run test clean
 
