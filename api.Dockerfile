@@ -22,6 +22,8 @@ RUN go mod tidy
 RUN export CGO_ENABLED=0 GOOS=linux \
     && go build -o main cmd/api/main.go
 
+RUN go mod tidy
+
 CMD ["air"]
 
 # Setup prod environment
