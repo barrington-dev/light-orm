@@ -1,7 +1,7 @@
 package services
 
 import (
-	"reflect"
+	"github.com/stretchr/testify/require"
 	"testing"
 )
 
@@ -17,9 +17,7 @@ func TestNewAuthService(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := NewAuthService(); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("NewAuthService() = %v, want %v", got, tt.want)
-			}
+			require.Equal(t, tt.want, NewAuthService())
 		})
 	}
 }
@@ -29,33 +27,26 @@ func TestAuth_HashPassword(t *testing.T) {
 		password string
 	}
 	tests := []struct {
-		name    string
-		args    args
-		want    bool
-		wantErr bool
+		name string
+		args args
+		want bool
 	}{
 		{
 			name: "can hash new password and verify",
 			args: args{
 				password: "testNewPassword123",
 			},
-			want:    true,
-			wantErr: false,
+			want: true,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			a := &Auth{}
 			hash, err := a.HashPassword(tt.args.password)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("HashPassword() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
+			require.Nil(t, err)
 
 			result := a.CheckPasswordHash(tt.args.password, hash)
-			if result != tt.want {
-				t.Errorf("HashPassword() got = %v, want %v", result, tt.want)
-			}
+			require.Equal(t, tt.want, result)
 		})
 	}
 }

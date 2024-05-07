@@ -14,7 +14,8 @@ WORKDIR /opt/app/api
 
 COPY . .
 
-RUN go get github.com/volatiletech/sqlboiler/v4
+RUN go get github.com/volatiletech/sqlboiler/v4 \
+    && go get github.com/stretchr/testify
 
 RUN go mod tidy
 
