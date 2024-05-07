@@ -14,9 +14,7 @@ import (
 
 type Server struct {
 	port int
-
-	db     database.Service
-	testDb database.Service
+	db   database.Service
 }
 
 type JSONResponseError[T any] struct {
@@ -30,8 +28,7 @@ func NewServer() *http.Server {
 	NewServer := &Server{
 		port: port,
 
-		db:     database.NewPostgresService(),
-		testDb: database.NewPostgresTestingService(),
+		db: database.NewPostgresService(),
 	}
 
 	// Declare Server config
