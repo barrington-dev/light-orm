@@ -35,7 +35,7 @@ func (suite *UserTestSuite) AfterTest(suiteName, testName string) {
 	}
 
 	suite.T().Logf("truncating users and related tables for %s...", testName)
-	_, err := suite.postgresTestingService.Instance().Exec("TRUNCATE TABLE users CASCADE")
+	_, err := suite.postgresTestingService.Instance().Exec("TRUNCATE TABLE users RESTART IDENTITY CASCADE")
 	suite.Require().Nil(err)
 	suite.T().Log("truncation for users and related tables complete")
 }
