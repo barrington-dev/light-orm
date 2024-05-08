@@ -34,6 +34,13 @@ func NewPostgresTestingService() *PostgresTestingService {
 	return DbTestInstance
 }
 
+func (s *PostgresTestingService) Close() error {
+	if err := s.db.Close(); err != nil {
+		return err
+	}
+	return nil
+}
+
 func (s *PostgresTestingService) Health() map[string]string {
 	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
 	defer cancel()

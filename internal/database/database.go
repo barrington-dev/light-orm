@@ -9,4 +9,5 @@ import (
 type Service interface {
 	Health() map[string]string
 	Instance() *sql.DB
+	Close() error
 }

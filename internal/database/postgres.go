@@ -34,6 +34,13 @@ func NewPostgresService() *PostgresService {
 	return dbInstance
 }
 
+func (s *PostgresService) Close() error {
+	if err := s.db.Close(); err != nil {
+		return err
+	}
+	return nil
+}
+
 func (s *PostgresService) Health() map[string]string {
 	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
 	defer cancel()
