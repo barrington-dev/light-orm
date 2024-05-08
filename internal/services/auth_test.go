@@ -1,11 +1,19 @@
 package services
 
 import (
-	"github.com/stretchr/testify/require"
+	"github.com/stretchr/testify/suite"
 	"testing"
 )
 
-func TestNewAuthService(t *testing.T) {
+type AuthTestSuite struct {
+	suite.Suite
+}
+
+func TestAuthTestSuite(t *testing.T) {
+	suite.Run(t, new(AuthTestSuite))
+}
+
+func (suite *AuthTestSuite) TestNewAuthService() {
 	tests := []struct {
 		name string
 		want *Auth
@@ -16,13 +24,13 @@ func TestNewAuthService(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			require.Equal(t, tt.want, NewAuthService())
+		suite.Run(tt.name, func() {
+			suite.Require().Equal(tt.want, NewAuthService())
 		})
 	}
 }
 
-func TestAuth_HashPassword(t *testing.T) {
+func (suite *AuthTestSuite) TestAuth_HashPassword() {
 	type args struct {
 		password string
 	}
@@ -40,13 +48,13 @@ func TestAuth_HashPassword(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
+		suite.Run(tt.name, func() {
 			a := &Auth{}
 			hash, err := a.HashPassword(tt.args.password)
-			require.Nil(t, err)
+			suite.Require().Nil(err)
 
 			result := a.CheckPasswordHash(tt.args.password, hash)
-			require.Equal(t, tt.want, result)
+			suite.Require().Equal(tt.want, result)
 		})
 	}
 }

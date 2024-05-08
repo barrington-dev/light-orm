@@ -2,17 +2,45 @@ package services
 
 import (
 	"context"
-	"github.com/stretchr/testify/require"
+	"github.com/stretchr/testify/suite"
 	"light-orm/internal/database"
 	"light-orm/internal/models"
 	"testing"
 )
 
-func init() {
-	database.NewPostgresTestingService() // setup testing database service connection
+type UserTestSuite struct {
+	suite.Suite
+	postgresTestingService *database.PostgresTestingService
 }
 
-func TestNewUserService(t *testing.T) {
+func TestUserTestSuite(t *testing.T) {
+	suite.Run(t, new(UserTestSuite))
+}
+
+func (suite *UserTestSuite) SetupSuite() {
+	suite.T().Log("setting up postgres testing service")
+	suite.postgresTestingService = database.NewPostgresTestingService() // setup testing database service connection
+}
+
+func (suite *UserTestSuite) TearDownSuite() {
+	suite.T().Log("tearing down postgres testing service")
+	if err := suite.postgresTestingService.Close(); err != nil {
+		suite.FailNow("failed to close postgres testing service", "error", err.Error())
+	}
+}
+
+func (suite *UserTestSuite) AfterTest(suiteName, testName string) {
+	if testName == "TestNewUserService" {
+		return
+	}
+
+	suite.T().Logf("truncating users and related tables for %s...", testName)
+	_, err := suite.postgresTestingService.Instance().Exec("TRUNCATE TABLE users CASCADE")
+	suite.Require().Nil(err)
+	suite.T().Log("truncation for users and related tables complete")
+}
+
+func (suite *UserTestSuite) TestNewUserService() {
 	type args struct {
 		db database.Service
 	}
@@ -33,13 +61,13 @@ func TestNewUserService(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			require.Equal(t, tt.want, NewUserService(tt.args.db))
+		suite.Run(tt.name, func() {
+			suite.Require().Equal(tt.want, NewUserService(tt.args.db))
 		})
 	}
 }
 
-func TestUserService_CreateUser(t *testing.T) {
+func (suite *UserTestSuite) TestUserService_CreateUser() {
 	type fields struct {
 		Db database.Service
 	}
@@ -100,7 +128,7 @@ func TestUserService_CreateUser(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
+		suite.Run(tt.name, func() {
 			us := &UserService{
 				Db: tt.fields.Db,
 			}
@@ -110,17 +138,13 @@ func TestUserService_CreateUser(t *testing.T) {
 				return
 			}
 
-			require.Nil(t, err)
-			require.Equal(t, tt.want, got)
+			suite.Require().Nil(err)
+			suite.Require().Equal(tt.want, got)
 		})
 	}
-
-	t.Cleanup(func() {
-		models.Users().DeleteAll(context.Background(), dbService.Db.Instance())
-	})
 }
 
-func TestUserService_GetUser(t *testing.T) {
+func (suite *UserTestSuite) TestUserService_GetUser() {
 	dbService := database.DbTestInstance
 
 	newUserData := &models.User{
@@ -137,10 +161,6 @@ func TestUserService_GetUser(t *testing.T) {
 	expectedUser, _ := userService.CreateUser(context.Background(), newUserData, passwordData)
 	got, err := userService.GetUser(context.Background(), expectedUser.ID)
 
-	require.Nil(t, err)
-	require.Equal(t, expectedUser, got)
-
-	t.Cleanup(func() {
-		models.Users().DeleteAll(context.Background(), dbService.Instance())
-	})
+	suite.Require().Nil(err)
+	suite.Require().Equal(expectedUser, got)
 }
