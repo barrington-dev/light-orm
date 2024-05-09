@@ -51,7 +51,7 @@ func (s *PostgresTestingService) Health() map[string]string {
 	}
 
 	return map[string]string{
-		"message": "Testing db is healthy",
+		"message": "testing db is healthy",
 	}
 }
 
