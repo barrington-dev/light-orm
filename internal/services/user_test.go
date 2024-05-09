@@ -159,7 +159,7 @@ func (suite *UserTestSuite) TestUserService_GetUser() {
 
 	userService := NewUserService(dbService)
 	expectedUser, _ := userService.CreateUser(context.Background(), newUserData, passwordData)
-	got, err := userService.GetUser(context.Background(), expectedUser.ID)
+	got, err := userService.GetUserById(context.Background(), expectedUser.ID)
 
 	suite.Require().Nil(err)
 	suite.Require().Equal(expectedUser, got)

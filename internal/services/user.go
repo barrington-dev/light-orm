@@ -22,7 +22,7 @@ func NewUserService(db database.Service) *UserService {
 	}
 }
 
-func (us *UserService) GetUser(ctx context.Context, id int64) (*models.User, error) {
+func (us *UserService) GetUserById(ctx context.Context, id int64) (*models.User, error) {
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
