@@ -27,3 +27,6 @@ tmp/
 
 # Project build
 main
+
+# Project files
+docker-compose.yml
