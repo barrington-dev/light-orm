@@ -30,3 +30,4 @@ main
 
 # Project files
 docker-compose.yml
+Makefile
