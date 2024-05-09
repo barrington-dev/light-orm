@@ -27,10 +27,8 @@ services:
     build:
       context: ./services/postgres
       dockerfile: postgres.Dockerfile
-    environment:
-      POSTGRES_DB: pony_db
-      POSTGRES_USER: pony
-      POSTGRES_PASSWORD: password
+    env_file:
+      - ./env/db.env
     networks:
       - backend
     ports:
