@@ -11,6 +11,10 @@ CREATE TABLE IF NOT EXISTS users (
      created_at TIMESTAMP NOT NULL,
      updated_at TIMESTAMP
 );
+
+CREATE INDEX IF NOT EXISTS users_first_name_idx ON users USING btree (first_name);
+CREATE INDEX IF NOT EXISTS users_last_name_idx ON users USING btree (last_name);
+CREATE INDEX IF NOT EXISTS users_contact_number_idx ON users USING btree (contact_number);
 -- +goose StatementEnd
 
 -- +goose Down

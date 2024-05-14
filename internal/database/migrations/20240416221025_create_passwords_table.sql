@@ -8,6 +8,8 @@ CREATE TABLE IF NOT EXISTS passwords (
     CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id)
         ON DELETE CASCADE
 );
+
+CREATE INDEX IF NOT EXISTS passwords_password_idx ON passwords USING btree (password);
 -- +goose StatementEnd
 
 -- +goose Down
