@@ -75,7 +75,7 @@ func (suite *UserTestSuite) TestUserService_CreateUser() {
 	type args struct {
 		ctx      context.Context
 		user     *models.User
-		password *models.Password
+		password string
 	}
 
 	dbService := fields{Db: database.DbTestInstance}
@@ -95,9 +95,7 @@ func (suite *UserTestSuite) TestUserService_CreateUser() {
 		},
 	}
 
-	password := &models.Password{
-		Password: "password123",
-	}
+	password := "password123"
 
 	tests := []struct {
 		name   string
@@ -155,7 +153,7 @@ func (suite *UserTestSuite) TestUserService_GetUser() {
 		Email:         "nelson.mandela@gmail.com",
 	}
 
-	passwordData := &models.Password{Password: "password123"}
+	passwordData := "password123"
 
 	userService := NewUserService(dbService)
 	expectedUser, _ := userService.CreateUser(context.Background(), newUserData, passwordData)

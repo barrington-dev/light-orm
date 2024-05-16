@@ -36,7 +36,7 @@ func (us *UserService) GetUserById(ctx context.Context, id int64) (*models.User,
 	return user, nil
 }
 
-func (us *UserService) CreateUser(ctx context.Context, user *models.User, password *models.Password) (*models.User, error) {
+func (us *UserService) CreateUser(ctx context.Context, user *models.User, clearPassword string) (*models.User, error) {
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
@@ -46,13 +46,15 @@ func (us *UserService) CreateUser(ctx context.Context, user *models.User, passwo
 	}
 
 	// Hash password
-	hash, err := NewAuthService().HashPassword(password.Password)
+	hash, err := NewAuthService().HashPassword(clearPassword)
 	if err != nil {
 		return nil, err
 	}
 
 	// Update password with hash
-	password.Password = hash
+	password := &models.Password{
+		Hash: hash,
+	}
 
 	// Store password in db
 	err = user.AddPasswords(ctx, us.Db.Instance(), true, password)
