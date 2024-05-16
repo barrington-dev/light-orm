@@ -25,7 +25,7 @@ import (
 type Password struct {
 	ID        int64     `boil:"id" json:"id" toml:"id" yaml:"id"`
 	UserID    int64     `boil:"user_id" json:"user_id" toml:"user_id" yaml:"user_id"`
-	Password  string    `boil:"password" json:"password" toml:"password" yaml:"password"`
+	Hash      string    `boil:"hash" json:"hash" toml:"hash" yaml:"hash"`
 	CreatedAt time.Time `boil:"created_at" json:"created_at" toml:"created_at" yaml:"created_at"`
 
 	R *passwordR `boil:"-" json:"-" toml:"-" yaml:"-"`
@@ -35,24 +35,24 @@ type Password struct {
 var PasswordColumns = struct {
 	ID        string
 	UserID    string
-	Password  string
+	Hash      string
 	CreatedAt string
 }{
 	ID:        "id",
 	UserID:    "user_id",
-	Password:  "password",
+	Hash:      "hash",
 	CreatedAt: "created_at",
 }
 
 var PasswordTableColumns = struct {
 	ID        string
 	UserID    string
-	Password  string
+	Hash      string
 	CreatedAt string
 }{
 	ID:        "passwords.id",
 	UserID:    "passwords.user_id",
-	Password:  "passwords.password",
+	Hash:      "passwords.hash",
 	CreatedAt: "passwords.created_at",
 }
 
@@ -132,12 +132,12 @@ func (w whereHelpertime_Time) GTE(x time.Time) qm.QueryMod {
 var PasswordWhere = struct {
 	ID        whereHelperint64
 	UserID    whereHelperint64
-	Password  whereHelperstring
+	Hash      whereHelperstring
 	CreatedAt whereHelpertime_Time
 }{
 	ID:        whereHelperint64{field: "\"passwords\".\"id\""},
 	UserID:    whereHelperint64{field: "\"passwords\".\"user_id\""},
-	Password:  whereHelperstring{field: "\"passwords\".\"password\""},
+	Hash:      whereHelperstring{field: "\"passwords\".\"hash\""},
 	CreatedAt: whereHelpertime_Time{field: "\"passwords\".\"created_at\""},
 }
 
@@ -169,8 +169,8 @@ func (r *passwordR) GetUser() *User {
 type passwordL struct{}
 
 var (
-	passwordAllColumns            = []string{"id", "user_id", "password", "created_at"}
-	passwordColumnsWithoutDefault = []string{"user_id", "password", "created_at"}
+	passwordAllColumns            = []string{"id", "user_id", "hash", "created_at"}
+	passwordColumnsWithoutDefault = []string{"user_id", "hash", "created_at"}
 	passwordColumnsWithDefault    = []string{"id"}
 	passwordPrimaryKeyColumns     = []string{"id"}
 	passwordGeneratedColumns      = []string{"id"}
