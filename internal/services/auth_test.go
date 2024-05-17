@@ -93,16 +93,14 @@ func (suite *AuthTestSuite) TestAuth_NewJWTRefreshToken() {
 	issuedAtTime := time.Now()
 
 	suite.Run("can create refresh access token", func() {
-		refreshToken, err := authService.NewJWTRefreshToken(config.UserClaims{
-			StandardClaims: jwt.StandardClaims{
-				Audience:  "",
-				ExpiresAt: issuedAtTime.Add(time.Hour * 24 * 7).Unix(),
-				Id:        "",
-				IssuedAt:  issuedAtTime.Unix(),
-				Issuer:    "",
-				NotBefore: 0,
-				Subject:   strconv.FormatInt(userId, 10),
-			},
+		refreshToken, err := authService.NewJWTRefreshToken(jwt.StandardClaims{
+			Audience:  "",
+			ExpiresAt: issuedAtTime.Add(time.Hour * 24 * 7).Unix(),
+			Id:        "",
+			IssuedAt:  issuedAtTime.Unix(),
+			Issuer:    "",
+			NotBefore: 0,
+			Subject:   strconv.FormatInt(userId, 10),
 		})
 
 		suite.Require().Nil(err)
