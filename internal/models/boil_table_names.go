@@ -4,9 +4,11 @@
 package models
 
 var TableNames = struct {
-	Passwords string
-	Users     string
+	Passwords     string
+	RefreshTokens string
+	Users         string
 }{
-	Passwords: "passwords",
-	Users:     "users",
+	Passwords:     "passwords",
+	RefreshTokens: "refresh_tokens",
+	Users:         "users",
 }
