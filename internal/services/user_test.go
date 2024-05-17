@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 	"github.com/stretchr/testify/suite"
+	"light-orm/internal/config"
 	"light-orm/internal/database"
 	"light-orm/internal/models"
 	"testing"
@@ -68,17 +69,13 @@ func (suite *UserTestSuite) TestNewUserService() {
 }
 
 func (suite *UserTestSuite) TestUserService_CreateUser() {
-	type fields struct {
-		Db database.Service
-	}
-
 	type args struct {
 		ctx      context.Context
 		user     *models.User
 		password string
 	}
 
-	dbService := fields{Db: database.DbTestInstance}
+	dbService := suite.postgresTestingService
 
 	users := []*models.User{
 		{
@@ -98,14 +95,14 @@ func (suite *UserTestSuite) TestUserService_CreateUser() {
 	password := "password123"
 
 	tests := []struct {
-		name   string
-		fields fields
-		args   args
-		want   *models.User
+		name string
+		db   database.Service
+		args args
+		want *models.User
 	}{
 		{
-			name:   "can create a new user",
-			fields: dbService,
+			name: "can create a new user",
+			db:   dbService,
 			args: args{
 				context.Background(),
 				users[0],
@@ -114,8 +111,8 @@ func (suite *UserTestSuite) TestUserService_CreateUser() {
 			want: users[0],
 		},
 		{
-			name:   "can't create a new user with incomplete fields e.g first and last name",
-			fields: dbService,
+			name: "can't create a new user with incomplete fields e.g first and last name",
+			db:   dbService,
 			args: args{
 				context.Background(),
 				users[1],
@@ -128,7 +125,7 @@ func (suite *UserTestSuite) TestUserService_CreateUser() {
 	for _, tt := range tests {
 		suite.Run(tt.name, func() {
 			us := &UserService{
-				Db: tt.fields.Db,
+				Db: tt.db,
 			}
 			got, err := us.CreateUser(tt.args.ctx, tt.args.user, tt.args.password)
 
@@ -143,7 +140,7 @@ func (suite *UserTestSuite) TestUserService_CreateUser() {
 }
 
 func (suite *UserTestSuite) TestUserService_GetUser() {
-	dbService := database.DbTestInstance
+	dbService := suite.postgresTestingService
 
 	newUserData := &models.User{
 		Username:      "nelsonmandela",
@@ -161,4 +158,33 @@ func (suite *UserTestSuite) TestUserService_GetUser() {
 
 	suite.Require().Nil(err)
 	suite.Require().Equal(expectedUser, got)
+}
+
+func (suite *UserTestSuite) TestUserService_Login() {
+	userData := &models.User{
+		Username:      "tommylee",
+		FirstName:     "tommy",
+		LastName:      "jones",
+		ContactNumber: "01234567890",
+		Email:         "tommylee.jones@gmail.com",
+	}
+	password := "password123"
+	ctx := context.Background()
+
+	userService := NewUserService(suite.postgresTestingService)
+	user, err := userService.CreateUser(ctx, userData, password)
+	suite.Require().Nil(err)
+
+	suite.Run("test user can login", func() {
+		accessToken, err := userService.Login(ctx, user, password)
+		suite.Require().Nil(err)
+		suite.Require().NotNil(accessToken)
+
+		authService := NewAuthService()
+		claims, err := authService.ParseJWTAccessToken(accessToken, &config.UserClaims{})
+		suite.Require().Nil(err)
+
+		err = claims.Valid()
+		suite.Require().Nil(err)
+	})
 }

@@ -5,10 +5,14 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"github.com/golang-jwt/jwt"
 	"github.com/volatiletech/sqlboiler/v4/boil"
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
+	"light-orm/internal/config"
 	"light-orm/internal/database"
 	"light-orm/internal/models"
+	"strconv"
+	"time"
 )
 
 type UserService struct {
@@ -67,6 +71,42 @@ func (us *UserService) CreateUser(ctx context.Context, user *models.User, clearP
 	}
 
 	return user, nil
+}
+
+func (us *UserService) Login(ctx context.Context, user *models.User, clearPassword string) (string, error) {
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
+	password, err := user.Passwords(qm.OrderBy("created_at DESC")).One(ctx, us.Db.Instance())
+	if err != nil {
+		return "", err
+	}
+
+	authService := NewAuthService()
+	err = authService.CheckPasswordHash(clearPassword, password.Hash)
+	if err != nil {
+		return "", err
+	}
+
+	issuedAtTime := time.Now()
+	accessToken, err := authService.NewJWTAccessToken(config.UserClaims{
+		StandardClaims: jwt.StandardClaims{
+			Audience:  "",
+			ExpiresAt: issuedAtTime.Add(time.Minute * 15).Unix(),
+			Id:        "",
+			IssuedAt:  issuedAtTime.Unix(),
+			Issuer:    "",
+			NotBefore: 0,
+			Subject:   strconv.FormatInt(user.ID, 10),
+		},
+		UserName: user.Username,
+	})
+
+	if err != nil {
+		return "", err
+	}
+
+	return accessToken, nil
 }
 
 func validateEmptyUserFieldsHook(ctx context.Context, exec boil.ContextExecutor, u *models.User) error {
