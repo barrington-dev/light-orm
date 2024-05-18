@@ -79,7 +79,7 @@ func (suite *AuthTestSuite) TestAuth_NewJWTAccessToken() {
 				NotBefore: 0,
 				Subject:   strconv.FormatInt(userId, 10),
 			},
-			UserName: "banana",
+			PreferredUsername: "banana",
 		})
 
 		suite.Require().Nil(err)
@@ -123,7 +123,7 @@ func (suite *AuthTestSuite) TestAuth_ParseJWTAccessToken() {
 			NotBefore: 0,
 			Subject:   strconv.FormatInt(userId, 10),
 		},
-		UserName: "honey",
+		PreferredUsername: "honey",
 	}
 
 	accessToken, err := authService.NewJWTAccessToken(expectedClaims)

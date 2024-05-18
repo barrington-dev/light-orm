@@ -11,7 +11,7 @@ type JWTConfig struct {
 
 type UserClaims struct {
 	jwt.StandardClaims
-	UserName string `json:"username"`
+	PreferredUsername string `json:"preferred_username"`
 }
 
 func NewJWTConfig() *JWTConfig {
