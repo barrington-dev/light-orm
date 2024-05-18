@@ -73,6 +73,52 @@ func (us *UserService) CreateUser(ctx context.Context, user *models.User, clearP
 	return user, nil
 }
 
+func (us *UserService) createJWTAccessTokens(ctx context.Context, user *models.User, authService *Auth) (string, error) {
+	accessTokenIssuedAtTime := time.Now()
+	accessToken, err := authService.NewJWTAccessToken(config.UserClaims{
+		StandardClaims: jwt.StandardClaims{
+			Audience:  "",
+			ExpiresAt: accessTokenIssuedAtTime.Add(time.Minute * 15).Unix(),
+			Id:        "",
+			IssuedAt:  accessTokenIssuedAtTime.Unix(),
+			Issuer:    "",
+			NotBefore: 0,
+			Subject:   strconv.FormatInt(user.ID, 10),
+		},
+		PreferredUsername: user.Username,
+	})
+
+	if err != nil {
+		return "", err
+	}
+
+	refreshTokenIssuedAtTime := time.Now()
+	refreshTokenExpiresAtTime := refreshTokenIssuedAtTime.Add(time.Hour * 24 * 7).Unix()
+
+	refreshToken, err := authService.NewJWTRefreshToken(jwt.StandardClaims{
+		Audience:  "",
+		ExpiresAt: refreshTokenExpiresAtTime,
+		Id:        "",
+		IssuedAt:  refreshTokenIssuedAtTime.Unix(),
+		Issuer:    "",
+		NotBefore: 0,
+		Subject:   strconv.FormatInt(user.ID, 10),
+	})
+
+	err = user.AddRefreshTokens(ctx, us.Db.Instance(), true, &models.RefreshToken{
+		UserID:    user.ID,
+		Token:     refreshToken,
+		ExpiresAt: time.Unix(refreshTokenExpiresAtTime, 0).UTC(),
+		CreatedAt: refreshTokenIssuedAtTime,
+	})
+
+	if err != nil {
+		return "", err
+	}
+
+	return accessToken, nil
+}
+
 func (us *UserService) Login(ctx context.Context, user *models.User, clearPassword string) (string, error) {
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
@@ -88,20 +134,7 @@ func (us *UserService) Login(ctx context.Context, user *models.User, clearPasswo
 		return "", err
 	}
 
-	issuedAtTime := time.Now()
-	accessToken, err := authService.NewJWTAccessToken(config.UserClaims{
-		StandardClaims: jwt.StandardClaims{
-			Audience:  "",
-			ExpiresAt: issuedAtTime.Add(time.Minute * 15).Unix(),
-			Id:        "",
-			IssuedAt:  issuedAtTime.Unix(),
-			Issuer:    "",
-			NotBefore: 0,
-			Subject:   strconv.FormatInt(user.ID, 10),
-		},
-		UserName: user.Username,
-	})
-
+	accessToken, err := us.createJWTAccessTokens(ctx, user, authService)
 	if err != nil {
 		return "", err
 	}

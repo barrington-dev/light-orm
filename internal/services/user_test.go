@@ -160,6 +160,29 @@ func (suite *UserTestSuite) TestUserService_GetUser() {
 	suite.Require().Equal(expectedUser, got)
 }
 
+func (suite *UserTestSuite) TestUserService_createJWTAccessTokens() {
+	userData := &models.User{
+		Username:      "mandylee",
+		FirstName:     "Mandy",
+		LastName:      "Lee",
+		ContactNumber: "01234567890",
+		Email:         "mandy.lee@gmail.com",
+	}
+	password := "password123"
+	ctx := context.Background()
+
+	userService := NewUserService(suite.postgresTestingService)
+	user, err := userService.CreateUser(ctx, userData, password)
+	suite.Require().Nil(err)
+
+	suite.Run("test create jwt access tokens", func() {
+		accessToken, err := userService.createJWTAccessTokens(ctx, user, NewAuthService())
+
+		suite.Require().Nil(err)
+		suite.Require().NotNil(accessToken)
+	})
+}
+
 func (suite *UserTestSuite) TestUserService_Login() {
 	userData := &models.User{
 		Username:      "tommylee",
