@@ -36,5 +36,17 @@ services:
     volumes:
       - psql_volume:/var/lib/postgresql/data
 
+  pgadmin:
+    image: elestio/pgadmin
+    restart: unless-stopped
+    env_file:
+      - ./env/pgadmin.env
+    networks:
+      - backend
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./servers.json:/pgadmin4/servers.json
+
 volumes:
   psql_volume:
