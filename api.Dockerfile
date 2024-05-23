@@ -14,15 +14,10 @@ WORKDIR /opt/app/api
 
 COPY . .
 
-RUN go get github.com/volatiletech/sqlboiler/v4 \
-    && go get github.com/stretchr/testify
-
 RUN go mod tidy
 
 RUN export CGO_ENABLED=0 GOOS=linux \
     && go build -o main cmd/api/main.go
-
-RUN go mod tidy
 
 CMD ["air"]
 
