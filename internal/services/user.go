@@ -5,14 +5,15 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-	"github.com/golang-jwt/jwt"
-	"github.com/volatiletech/sqlboiler/v4/boil"
-	"github.com/volatiletech/sqlboiler/v4/queries/qm"
 	"light-orm/internal/config"
 	"light-orm/internal/database"
 	"light-orm/internal/models"
 	"strconv"
 	"time"
+
+	"github.com/golang-jwt/jwt"
+	"github.com/volatiletech/sqlboiler/v4/boil"
+	"github.com/volatiletech/sqlboiler/v4/queries/qm"
 )
 
 type UserService struct {
@@ -33,7 +34,7 @@ func (us *UserService) GetUserById(ctx context.Context, id int64) (*models.User,
 	user, err := models.Users(qm.Where("id=?", id)).One(ctx, us.Db.Instance())
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return nil, errors.New(fmt.Sprintf("user %d not found", id))
+			return nil, fmt.Errorf("user %d not found", id)
 		}
 		return nil, err
 	}
@@ -104,6 +105,10 @@ func (us *UserService) createJWTAccessTokens(ctx context.Context, user *models.U
 		NotBefore: 0,
 		Subject:   strconv.FormatInt(user.ID, 10),
 	})
+
+	if err != nil {
+		return "", err
+	}
 
 	err = user.AddRefreshTokens(ctx, us.Db.Instance(), true, &models.RefreshToken{
 		UserID:    user.ID,
