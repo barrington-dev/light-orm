@@ -1,0 +1,132 @@
+{
+    "users": [
+        {
+            "username": "albert.einstein",
+            "first_name": "Albert",
+            "last_name": "Einstein",
+            "email": "albert.einstein@physics.com",
+            "is_admin": false,
+            "password": "relativity123"
+        },
+        {
+            "username": "marie.curie",
+            "first_name": "Marie",
+            "last_name": "Curie",
+            "email": "marie.curie@chemistry.com",
+            "is_admin": false,
+            "password": "polonium119"
+        },
+        {
+            "username": "alan.turing",
+            "first_name": "Alan",
+            "last_name": "Turing",
+            "email": "alan.turing@computer.science",
+            "is_admin": false,
+            "password": "enigma_code"
+        },
+        {
+            "username": "stephen.hawking",
+            "first_name": "Stephen",
+            "last_name": "Hawking",
+            "email": "stephen.hawking@astrophysics.org",
+            "is_admin": false,
+            "password": "blackhole789"
+        },
+        {
+            "username": "ada.lovelace",
+            "first_name": "Ada",
+            "last_name": "Lovelace",
+            "email": "ada.lovelace@programming.net",
+            "is_admin": false,
+            "password": "analyticalengine"
+        },
+        {
+            "username": "nikola.tesla",
+            "first_name": "Nikola",
+            "last_name": "Tesla",
+            "email": "nikola.tesla@engineering.co",
+            "is_admin": false,
+            "password": "ac_current360"
+        },
+        {
+            "username": "galileo.galilei",
+            "first_name": "Galileo",
+            "last_name": "Galilei",
+            "email": "galileo.galilei@astronomy.edu",
+            "is_admin": false,
+            "password": "milkyway101"
+        },
+        {
+            "username": "marie.goppert.mayer",
+            "first_name": "Marie",
+            "last_name": "Goppert-Mayer",
+            "email": "marie.goppert.mayer@physics.org",
+            "is_admin": false,
+            "password": "nuclear_shell"
+        },
+        {
+            "username": "isaac.newton",
+            "first_name": "Isaac",
+            "last_name": "Newton",
+            "email": "isaac.newton@mathematics.ac.uk",
+            "is_admin": false,
+            "password": "gravity_rules"
+        },
+        {
+            "username": "louis.pasteur",
+            "first_name": "Louis",
+            "last_name": "Pasteur",
+            "email": "louis.pasteur@biology.fr",
+            "is_admin": false,
+            "password": "germtheory999"
+        },
+        {
+            "username": "charles.darwin",
+            "first_name": "Charles",
+            "last_name": "Darwin",
+            "email": "charles.darwin@evolution.com",
+            "is_admin": false,
+            "password": "natural_selection"
+        },
+        {
+            "username": "alexander.fleming",
+            "first_name": "Alexander",
+            "last_name": "Fleming",
+            "email": "alexander.fleming@medicine.institute",
+            "is_admin": false,
+            "password": "penicillin_cure"
+        },
+        {
+            "username": "johannes.kepler",
+            "first_name": "Johannes",
+            "last_name": "Kepler",
+            "email": "johannes.kepler@astronomy.space",
+            "is_admin": false,
+            "password": "planetary_laws"
+        },
+        {
+            "username": "tuyou.turing",
+            "first_name": "Tuyu",
+            "last_name": "Turing",
+            "email": "tuyou.turing@programming.foundation",
+            "is_admin": false,
+            "password": "coding_maths"
+        },
+        {
+            "username": "grace.hopper",
+            "first_name": "Grace",
+            "last_name": "Hopper",
+            "email": "grace.hopper@computer.history",
+            "is_admin": false,
+            "password": "women_in_tech@1"
+        },
+        {
+            "username": "edison",
+            "first_name": "Thomas",
+            "last_name": "Edison",
+            "email": "thomas.edison@invention.museum",
+            "is_admin": false,
+            "password": "inventing_lights!"
+        }
+    ]
+}
