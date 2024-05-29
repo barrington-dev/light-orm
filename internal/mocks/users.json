@@ -5,6 +5,7 @@
             "first_name": "Albert",
             "last_name": "Einstein",
             "email": "albert.einstein@physics.com",
+            "contact_number": "0123456789",
             "is_admin": false,
             "password": "relativity123"
         },
@@ -13,6 +14,7 @@
             "first_name": "Marie",
             "last_name": "Curie",
             "email": "marie.curie@chemistry.com",
+            "contact_number": "0123456789",
             "is_admin": false,
             "password": "polonium119"
         },
@@ -21,6 +23,7 @@
             "first_name": "Alan",
             "last_name": "Turing",
             "email": "alan.turing@computer.science",
+            "contact_number": "0123456789",
             "is_admin": false,
             "password": "enigma_code"
         },
@@ -29,6 +32,7 @@
             "first_name": "Stephen",
             "last_name": "Hawking",
             "email": "stephen.hawking@astrophysics.org",
+            "contact_number": "0123456789",
             "is_admin": false,
             "password": "blackhole789"
         },
@@ -37,6 +41,7 @@
             "first_name": "Ada",
             "last_name": "Lovelace",
             "email": "ada.lovelace@programming.net",
+            "contact_number": "0123456789",
             "is_admin": false,
             "password": "analyticalengine"
         },
@@ -45,6 +50,7 @@
             "first_name": "Nikola",
             "last_name": "Tesla",
             "email": "nikola.tesla@engineering.co",
+            "contact_number": "0123456789",
             "is_admin": false,
             "password": "ac_current360"
         },
@@ -53,6 +59,7 @@
             "first_name": "Galileo",
             "last_name": "Galilei",
             "email": "galileo.galilei@astronomy.edu",
+            "contact_number": "0123456789",
             "is_admin": false,
             "password": "milkyway101"
         },
@@ -61,6 +68,7 @@
             "first_name": "Marie",
             "last_name": "Goppert-Mayer",
             "email": "marie.goppert.mayer@physics.org",
+            "contact_number": "0123456789",
             "is_admin": false,
             "password": "nuclear_shell"
         },
@@ -69,6 +77,7 @@
             "first_name": "Isaac",
             "last_name": "Newton",
             "email": "isaac.newton@mathematics.ac.uk",
+            "contact_number": "0123456789",
             "is_admin": false,
             "password": "gravity_rules"
         },
@@ -77,6 +86,7 @@
             "first_name": "Louis",
             "last_name": "Pasteur",
             "email": "louis.pasteur@biology.fr",
+            "contact_number": "0123456789",
             "is_admin": false,
             "password": "germtheory999"
         },
@@ -85,6 +95,7 @@
             "first_name": "Charles",
             "last_name": "Darwin",
             "email": "charles.darwin@evolution.com",
+            "contact_number": "0123456789",
             "is_admin": false,
             "password": "natural_selection"
         },
@@ -93,6 +104,7 @@
             "first_name": "Alexander",
             "last_name": "Fleming",
             "email": "alexander.fleming@medicine.institute",
+            "contact_number": "0123456789",
             "is_admin": false,
             "password": "penicillin_cure"
         },
@@ -101,6 +113,7 @@
             "first_name": "Johannes",
             "last_name": "Kepler",
             "email": "johannes.kepler@astronomy.space",
+            "contact_number": "0123456789",
             "is_admin": false,
             "password": "planetary_laws"
         },
@@ -109,6 +122,7 @@
             "first_name": "Tuyu",
             "last_name": "Turing",
             "email": "tuyou.turing@programming.foundation",
+            "contact_number": "0123456789",
             "is_admin": false,
             "password": "coding_maths"
         },
@@ -117,6 +131,7 @@
             "first_name": "Grace",
             "last_name": "Hopper",
             "email": "grace.hopper@computer.history",
+            "contact_number": "0123456789",
             "is_admin": false,
             "password": "women_in_tech@1"
         },
@@ -125,6 +140,7 @@
             "first_name": "Thomas",
             "last_name": "Edison",
             "email": "thomas.edison@invention.museum",
+            "contact_number": "0123456789",
             "is_admin": false,
             "password": "inventing_lights!"
         }
